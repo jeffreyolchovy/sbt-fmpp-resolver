@@ -6,10 +6,20 @@ An [Apache FreeMarker](http://freemarker.org/) template resolver for the [sbt](h
 ## Usage
 To allow a specific project to use the `FmppTemplateResolver`, add the following lines to its `project/plugins.sbt` file:
 ```
-addSbtPlugin("com.github.jeffreyolchovy" % "sbt-fmpp-template" % "0.1.0-SNAPSHOT")
+resolvers ++= Seq(
+  Resolver.bintrayRepo("jeffreyolchovy", "maven"),
+  Resolver.url(
+    "bintray-jeffreyolchovy-sbt-plugins",
+    url("http://dl.bintray.com/jeffreyolchovy/sbt-plugins")
+  )(Resolver.ivyStylePatterns)
+)
+
+addSbtPlugin("com.github.jeffreyolchovy" % "sbt-fmpp-template" % "0.1.0rc0")
 ```
 
 To globally allow sbt to evaluate templates using this resolver, add those same lines to `~/.sbt/0.13/plugins/build.sbt`.
+
+NOTE: The addition of the above resolvers is a temporary measure. They can be lifted once the plugin and its supporting library have been published to wider distribution channels.
 
 Once the plugin has been installed for a given project (or globally), you can leverage it using `sbt new`.
 
