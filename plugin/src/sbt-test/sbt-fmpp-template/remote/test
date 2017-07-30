@@ -1,0 +1,3 @@
+> new -S git@github.com:jeffreyolchovy/example-sbt-fmpp-project.git -O default -D "msg:'Hello World!'" --modes [ ignore(.git/) ]
+> new -S git@github.com:jeffreyolchovy/example-sbt-fmpp-project.git#develop -O branch -D "msg:'Hello World!'" --modes [ ignore(.git/) ]
+> new -S git@github.com:jeffreyolchovy/example-sbt-fmpp-project.git#v0.1 -O tag -D "msg:'Hello World!'" --modes [ ignore(.git/) ]

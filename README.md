@@ -38,6 +38,17 @@ For more information refer to the [FreeMarker manual](http://freemarker.org/docs
 
 All of FMPP's command-line options are respected.
 
+### Examples
+Example sbt projects that utilize the `FmppTemplateResolver` exist in the [plugin/src/sbt-test/sbt-fmpp-template](plugin/src/sbt-test/sbt-fmpp-template) directory.
+
+The examples include projects that:
+- Evaluate templates that exist on the [local file system](plugin/src/sbt-test/sbt-fmpp-template/local/test)
+- Evaluate templates from a [remote git repository](plugin/src/sbt-test/sbt-fmpp-template/remote/test)
+- Evaluate templates from a [remote git repository, referencing a given branch by name](plugin/src/sbt-test/sbt-fmpp-template/remote/test)
+- Evaluate templates from a [remote git repository, referencing a given tag](plugin/src/sbt-test/sbt-fmpp-template/remote/test)
+- Evaluate templates that need to create [dynamic directory paths and file names](plugin/src/sbt-test/sbt-fmpp-template/dynamic-files-and-dirs/templates/main/scala/${organization}/Bar.scala)
+- Evaluate templates that utilize [custom user-defined macros](plugin/src/sbt-test/sbt-fmpp-template/macros/includes/custom_macros.ftl)
+
 ## Motivation
 sbt supports the idea of pluggable template resolvers, however, only one implementation ([Giter8](http://www.foundweekends.org/giter8/)) is provided out of the box. While I have made extensive use of Giter8 for project templates and project archetypes in the past, Giter8 is somewhat lacking in terms of raw features and extensibility. This is not necessarily a bad thing. The simplicity and limited range of Giter8 has actually been quite welcoming for the majority of my use cases, but when more power is required, there's not a whole lot you can do...
 
