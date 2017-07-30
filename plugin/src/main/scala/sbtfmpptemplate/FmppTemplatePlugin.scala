@@ -11,9 +11,6 @@ object FmppTemplatePlugin extends AutoPlugin {
 
   override def trigger = allRequirements
 
-  override def projectSettings: Seq[Setting[_]] = Seq(
-  )
-
   override lazy val globalSettings: Seq[Setting[_]] = Seq(
     templateResolverInfos += TemplateResolverInfo(
       "com.github.jeffreyolchovy" %% "sbt-fmpp-resolver" % BuildInfo.version cross(CrossVersion.binary),
