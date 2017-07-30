@@ -43,4 +43,13 @@ object GitUtils {
       }
     }
   }
+
+  private def createTempDirectory: File = {
+    val dir = new File(FileUtils.getTempDirectory, "gitrepo-" + System.nanoTime)
+    dir.mkdirs()
+    sys.addShutdownHook {
+      FileUtils.deleteQuietly(dir)
+    }
+    dir
+  }
 }

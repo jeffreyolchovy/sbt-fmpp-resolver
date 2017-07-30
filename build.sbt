@@ -52,6 +52,7 @@ lazy val resolver = (project in file("resolver"))
     libraryDependencies ++= Seq(
       "org.scala-sbt" % "template-resolver" % "0.1",
       "net.sourceforge.fmpp" % "fmpp" % "0.9.15",
+      "commons-io" % "commons-io" % "2.5",
       "org.eclipse.jgit" % "org.eclipse.jgit.pgm" % "3.7.0.201502260915-r",
       "org.scalatest" %% "scalatest" % "3.0.1" % Test
     ),
