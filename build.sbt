@@ -1,8 +1,11 @@
+import Publishing._
+
 inThisBuild(
   Seq(
     organization := "com.github.jeffreyolchovy",
     version := "0.1.0-SNAPSHOT",
     scalacOptions ++= Seq("-deprecation"),
+    licenses += ("Apache-2.0", url("https://opensource.org/licenses/Apache-2.0")),
     developers := List(
       Developer("jeffreyolchovy", "Jeffrey Olchovy", "@jaeo", url("https://github.com/jeffreyolchovy"))
     )
@@ -10,11 +13,13 @@ inThisBuild(
 )
 
 lazy val root = (project in file("."))
+  .settings(noopPublishSettings: _*)
   .aggregate(resolver, plugin, pluginWithBuildInfo)
   .enablePlugins(CrossPerProjectPlugin)
 
 lazy val plugin = (project in file("plugin"))
   .settings(commonPluginSettings: _*)
+  .settings(pluginPublishSettings: _*)
   .settings(
     name := "sbt-fmpp-template",
     buildInfoKeys := Seq[BuildInfoKey](version),
@@ -25,6 +30,7 @@ lazy val plugin = (project in file("plugin"))
 
 lazy val pluginWithBuildInfo = (project in file("plugin-buildinfo"))
   .settings(commonPluginSettings: _*)
+  .settings(noopPublishSettings: _*)
   .settings(
     name := "sbt-fmpp-template-buildinfo",
     libraryDependencies ++= {
@@ -45,6 +51,7 @@ lazy val pluginWithBuildInfo = (project in file("plugin-buildinfo"))
   )
 
 lazy val resolver = (project in file("resolver"))
+  .settings(libraryPublishSettings: _*)
   .settings(
     name := "sbt-fmpp-resolver",
     scalaVersion := "2.10.6",
