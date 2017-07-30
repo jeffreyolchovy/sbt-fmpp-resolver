@@ -7,9 +7,10 @@ case class Args(underlying: Seq[(String, String)]) {
   }
 
   def valueOf(key: String): String = {
-    val value = underlying.find(_._1 == key)
-    require(value.nonEmpty && value.get._2.nonEmpty, s"Please provide a value for $key")
-    value.map(_._2).get
+    get(key).map(_._2) match {
+      case None | Some("") => throw new IllegalArgumentException(s"Please provide a value for $key")
+      case Some(value) => value
+    }
   }
 
   def contains(key: String): Boolean = {

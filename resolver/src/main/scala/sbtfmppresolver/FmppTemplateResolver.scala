@@ -41,9 +41,7 @@ class FmppTemplateResolver extends TemplateResolver {
       }
     }
 
-    println("Invoking fmpp with: " + args1.mkString(" "))
-    val result = CommandLine.execute(args1, null, null)
-    println("Template evaluation exited with status code " + result)
+    CommandLine.execute(args1, null, null)
   }
 }
 
