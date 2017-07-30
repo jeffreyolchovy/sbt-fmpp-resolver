@@ -1,7 +1,42 @@
 # sbt-fmpp-resolver
 An [Apache FreeMarker](http://freemarker.org/) template resolver for the [sbt](http://www.scala-sbt.org/) [new command](http://www.scala-sbt.org/0.13/docs/sbt-new-and-Templates.html).
 
-[FMPP](http://fmpp.sourceforge.net/) is utilized as the template processing engine.
+[FMPP](http://fmpp.sourceforge.net/) is used as the template processing engine.
+
+## Usage
+To allow a specific project to use the `FmppTemplateResolver`, add the following lines to its `project/plugins.sbt` file:
+```
+addSbtPlugin("com.github.jeffreyolchovy" % "sbt-fmpp-template" % "0.1.0-SNAPSHOT")
+```
+
+To globally allow sbt to evaluate templates using this resolver, add those same lines to `~/.sbt/0.13/plugins/build.sbt`.
+
+Once the plugin has been installed for a given project (or globally), you can leverage it using `sbt new`.
+
+For example, given the following sbt project structure:
+```
+(root)
+  |-/templates  # a directory containing a structured set of FreeMarker templates and/or static files
+  |-/includes   # a directory containing FreeMarker files that can be used as libraries
+  |-/project
+  |-build.sbt
+```
+
+The following command will:
+- Evaluate the templates found in the `templates` directory using the data given on the command line (`-D ...`)
+- Allow templates to use any custom macros and instructions defined in the `includes` directory
+- Emit the generated files to the `src` directory
+```
+sbt new -S templates -O src -D "name:MyProject, organization:com.example" --freemarker-links includes:includes
+```
+
+The file system structure of the `templates` directory will be preserved, however, file and directory names can be altered using FreeMarker macros. This allows for the interpolation and expansion of template file paths, if desired.
+
+By default, empty directories will not be copied to the target destination. This behavior is configurable.
+
+For more information refer to the [FreeMarker manual](http://freemarker.org/docs/index.html) and the [FMPP Command-line tool documentation](http://fmpp.sourceforge.net/commandline.html).
+
+All of FMPP's command-line options are respected.
 
 ## Motivation
 sbt supports the idea of pluggable template resolvers, however, only one implementation ([Giter8](http://www.foundweekends.org/giter8/)) is provided out of the box. While I have made extensive use of Giter8 for project templates and project archetypes in the past, Giter8 is somewhat lacking in terms of raw features and extensibility. This is not necessarily a bad thing. The simplicity and limited range of Giter8 has actually been quite welcoming for the majority of my use cases, but when more power is required, there's not a whole lot you can do...
