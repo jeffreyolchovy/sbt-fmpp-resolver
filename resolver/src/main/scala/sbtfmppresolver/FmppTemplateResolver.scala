@@ -1,6 +1,7 @@
 package sbtfmppresolver
 
 import java.net.URI
+import scala.util.matching.Regex
 import sbt.template.TemplateResolver
 import fmpp.tools.CommandLine
 
@@ -31,8 +32,8 @@ class FmppTemplateResolver extends TemplateResolver {
         // source directory is a remote resource,
         // copy remote resource to local file system,
         // and remap the source directory arg to point to the local path
-        case GitUri(uri) =>
-          val file = GitUtils.copyToLocal(uri).get
+        case GitUri(uri, _, ref) =>
+          val file = GitUtils.copyToLocal(uri, Option(ref)).get
           val newValue = file.getAbsolutePath
           args.replace(key, newValue).toArray
 
@@ -58,10 +59,14 @@ object FmppTemplateResolver {
   val LocalUri = """^(\S+)(?:/)?$""".r
 
   object GitUri {
-    val NativeUri = "^(git[@|://].*)$".r
-    val HttpsUri = "^(https://.*)$".r
-    val HttpUri = "^(http://.*)$".r
-    val SshUri = "^(ssh://.*)$".r
+    val NativeUri = uriPattern("git[@|://]")
+    val HttpsUri  = uriPattern("https://")
+    val HttpUri   = uriPattern("http://")
+    val SshUri    = uriPattern("ssh://")
+
+    def uriPattern(protocolPattern: String): Regex = {
+      ("^(" + protocolPattern + "[^#]*)(#(.+))?$").r
+    }
 
     def unapplySeq(s: Any): Option[List[String]] = {
       NativeUri.unapplySeq(s) orElse
@@ -78,7 +83,7 @@ object FmppTemplateResolver {
   def hasSupportedSourceArg(args: Args): Boolean = {
     getSourceArg(args) match {
       case Some((_, value)) => value match {
-        case GitUri(_) => true
+        case GitUri(_, _, _) => true
         case LocalUri(_) => true
         case _ => false
       }
