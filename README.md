@@ -86,3 +86,11 @@ This will be replaced by a custom front-end which can resolve remote resources.
   - Dynamic file and directory names can be obtained by utilizing `pp` directives *inside* templates
 - Does not include built-ins for Java-esque style string conversions (e.g. to/from UpperCamelCase or lowerCamelCase)
   - These operations can be defined in custom macros and included as a library (**namespace**, in FreeMarker lingo)
+
+## Credits
+- The real heavy lifting is done by the underlying templating engine and templating "front-end" (FreeMarker and FMPP)
+- For git repository integration, I've reused whatever functionality I could from Giter8
+
+Licensed under the Apache 2.0 license
+
+Copyright Jeffrey Olchovy, 2017
