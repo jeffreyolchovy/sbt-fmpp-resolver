@@ -71,14 +71,10 @@ sbt's mechanism for adding template resolvers has also proven to be rather simpl
 I've spent most of my time wrestling with configuring the plugin to work against both sbt 0.13 and 1.0. There is a bit of noise and hackery in the build.sbt that I can't seem to simplify, and I hope some attention is placed on cross-sbt-version-plugin-development before we get an official 1.0 release.
 
 Notably, some issues that I ran into when developing the plugin against sbt 0.13 and 1.0 were:
-- A plugin (Plugin A) that has a library dependency on another plugin (Plugin B) fails to resolve the plugin artifact (Plugin B's artifact) correctly when using `addSbtPlugin` in the build.sbt file
-  - This issue is worked around by invoking `Defaults.sbtPluginExtra` with the current sbt and Scala versions
-- A plugin that has a dependency on another plugin in your build.sbt fails to resolve the plugin artifact correctly when using `dependsOn`
-  - This issue is also worked around by invoking `Defaults.sbtPluginExtra` with the current sbt, Scala, and project versions
-- A plugin that has a dependency on a non-plugin subproject in your build.sbt fails to resolve the project artifact correctly when using `dependsOn` if `scalaVersion` is not explicitly/correctly set for the current version of sbt in the plugin project.
-  - This issue is worked around by explicity setting the Scala version conditionally, using the current sbt version as input
+- https://github.com/sbt/sbt/issues/3392
+- https://github.com/sbt/sbt/issues/3393
 
-See the build.sbt for more informations on the workarounds. These were non-obvious, and honestly, that's where I spent most of my time.
+See the build.sbt and the linked issues for more information on the workarounds.
 
 ## Project Structure
 - [plugin](#plugin)
