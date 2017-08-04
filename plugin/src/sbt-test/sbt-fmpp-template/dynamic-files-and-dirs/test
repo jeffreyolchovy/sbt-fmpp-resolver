@@ -1,1 +1,1 @@
-> new -S templates -O src -D "name:World, organization:com.example" --freemarker-links includes:includes
+> fmpp -S templates -O src -D "name:World, organization:com.example" --freemarker-links includes:includes

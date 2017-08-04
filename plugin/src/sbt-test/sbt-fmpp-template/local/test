@@ -1,1 +1,1 @@
-> new -S templates -O src -D name:World
+> fmpp -S templates -O src -D name:World

@@ -1,1 +1,1 @@
-> new -S templates -O out -D "date:2017, email:user@example.com" --freemarker-links includes:includes
+> fmpp -S templates -O out -D "date:2017, email:user@example.com" --freemarker-links includes:includes
