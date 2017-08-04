@@ -21,7 +21,7 @@ To globally allow sbt to evaluate templates using this resolver, add those same 
 
 NOTE: The addition of the above resolvers is a temporary measure. They can be lifted once the plugin and its supporting library have been published to wider distribution channels.
 
-Once the plugin has been installed for a given project (or globally), you can leverage it using `sbt new`.
+Once the plugin has been installed for a given project (or globally), you can leverage it using `sbt new` or via the `fmpp` input task.
 
 For example, given the following sbt project structure:
 ```
