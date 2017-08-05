@@ -17,13 +17,15 @@ lazy val root = (project in file("."))
   .aggregate(resolver, plugin, pluginWithBuildInfo)
   .enablePlugins(CrossPerProjectPlugin)
 
-lazy val plugin = (project in file("plugin"))
+lazy val plugin: Project = (project in file("plugin"))
   .settings(commonPluginSettings: _*)
   .settings(pluginPublishSettings: _*)
   .settings(
     name := "sbt-fmpp-template",
     buildInfoKeys := Seq[BuildInfoKey](version),
-    buildInfoPackage := "sbtfmpptemplate"
+    buildInfoPackage := "sbtfmpptemplate",
+    update := update.dependsOn(crossPublishLocal in resolver).value,
+    crossPublishLocal := crossPublishLocalImpl.value
   )
   .dependsOn(resolver)
   .enablePlugins(BuildInfoPlugin)
@@ -33,6 +35,7 @@ lazy val pluginWithBuildInfo = (project in file("plugin-buildinfo"))
   .settings(noopPublishSettings: _*)
   .settings(
     name := "sbt-fmpp-template-buildinfo",
+    update := update.dependsOn(crossPublishLocal in plugin).value,
     libraryDependencies ++= {
       val currentSbtVersion = (sbtBinaryVersion in pluginCrossBuild).value
       Seq(
@@ -65,7 +68,8 @@ lazy val resolver = (project in file("resolver"))
     ),
     libraryDependencies := parserCombinators(scalaVersion.value).fold(libraryDependencies.value) {
       libraryDependencies.value :+ _
-    }
+    },
+    crossPublishLocal := crossPublishLocalImpl.value
   )
 
 val commonPluginSettings = scriptedSettings ++ Seq(
@@ -88,5 +92,20 @@ def parserCombinators(scalaVersion: String): Option[ModuleID] = {
   CrossVersion.partialVersion(scalaVersion) match {
     case Some((2, 10)) => None
     case _ => Some("org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.4")
+  }
+}
+
+val crossPublishLocal = taskKey[Unit]("+publishLocal implemented as a task")
+val crossPublishLocalImpl = Def.task[Unit] {
+  val s = streams.value
+  val projectId = thisProject.value.id
+  (crossScalaVersions.value).flatMap { version =>
+    s.log.info(s"Locally publishing artifact for $projectId with Scala version $version")
+    Seq(
+      Command.process(s"++$version", _: State),
+      Command.process(s"$projectId/publishLocal", _: State)
+    )
+  }.foldLeft(state.value) { (state, cmd) =>
+    cmd(state)
   }
 }
