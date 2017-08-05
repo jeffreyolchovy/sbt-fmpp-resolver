@@ -72,7 +72,7 @@ val commonPluginSettings = scriptedSettings ++ Seq(
   scriptedLaunchOpts ++= Seq("-Xmx1024M", "-Dplugin.version=" + version.value),
   scriptedBufferLog := false,
   sbtPlugin := true,
-  crossSbtVersions := Seq("0.13.16", "1.0.0-M5"),
+  crossSbtVersions := Seq("0.13.16", "1.0.0-RC3"),
   scalaVersion := {
     val currentSbtVersion = (sbtVersion in pluginCrossBuild).value
     CrossVersion.partialVersion(currentSbtVersion) match {
