@@ -32,7 +32,7 @@ For example, given the following sbt project structure:
   |-build.sbt
 ```
 
-The following command will:
+Execution of the following command will:
 - Evaluate the templates found in the `templates` directory using the data given on the command line (`-D ...`)
 - Allow templates to use any custom macros and instructions defined in the `includes` directory
 - Emit the generated files to the `src` directory
@@ -49,9 +49,17 @@ For more information refer to the [FreeMarker manual](http://freemarker.org/docs
 All of FMPP's command-line options are respected.
 
 ### Examples
-Example sbt projects that utilize the `FmppTemplateResolver` exist in the [plugin/src/sbt-test/sbt-fmpp-template](plugin/src/sbt-test/sbt-fmpp-template) directory.
+A directory of [example sbt project templates](examples) is provided. It includes FreeMarker template versions of popular sbt-giter8 templates.
 
-The examples include projects that:
+- [scala-sbt.ftl](examples/scala-sbt.ftl) (inspired by [scala-sbt.g8](https://github.com/typesafehub/scala-sbt.g8))
+- [scala-native.ftl](examples/scala-native.ftl) (inspired by [scala-native.g8](https://github.com/scala-native/scala-native.g8))
+- [sbt-autoplugin.ftl](examples/sbt-autoplugin.ftl) (inspired by [sbt-autoplugin.g8](https://github.com/sbt/sbt-autoplugin.g8))
+
+Refer to the [README.md](examples/README.md) of the examples directory for more details.
+
+Additional example projects that utilize the `FmppTemplateResolver` also exist in the [plugin/src/sbt-test/sbt-fmpp-template](plugin/src/sbt-test/sbt-fmpp-template) directory.
+
+These examples include projects that:
 - Evaluate templates that exist on the [local file system](plugin/src/sbt-test/sbt-fmpp-template/local/test)
 - Evaluate templates from a [remote git repository](plugin/src/sbt-test/sbt-fmpp-template/remote/test)
 - Evaluate templates from a [remote git repository, referencing a given branch by name](plugin/src/sbt-test/sbt-fmpp-template/remote/test)
@@ -101,6 +109,7 @@ This will be replaced by a custom front-end which can resolve remote resources.
 ## Limitations (and workarounds)
 - ~~Does not support dynamic file and directory names~~
   - Dynamic file and directory names can be obtained by utilizing `pp` directives *inside* templates
+  - The `config.fmpp` files in the [example](examples) projects present a method for automatically interpolating variables when present in file names or directory paths
 - Does not include built-ins for Java-esque style string conversions (e.g. to/from UpperCamelCase or lowerCamelCase)
   - These operations can be defined in custom macros and included as a library (**namespace**, in FreeMarker lingo)
 

@@ -1,0 +1,25 @@
+data: {
+  name: example,
+  organization: com.example
+  organizationPath: com/example
+  scalaVersion: 2.12.3
+  sbtVersion: 0.13.16
+}
+freemarkerLinks: {
+  macros: ../share/macros.ftl
+}
+modes: [
+  ignore(config.fmpp)
+  ignore(.git/)
+]
+borders: [
+  header(
+    "\
+    <#if pp.outputFile?contains(r'${')>\
+      <#assign finalOutputFile>/<@pp.outputFile?interpret/></#assign>\
+      <@pp.renameOutputFile name=finalOutputFile/>\
+    </#if>\
+    ",
+    **/*
+  )
+]
