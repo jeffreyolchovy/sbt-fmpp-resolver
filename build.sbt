@@ -3,7 +3,7 @@ import Publishing._
 inThisBuild(
   Seq(
     organization := "com.github.jeffreyolchovy",
-    version := "0.1.0rc1-SNAPSHOT",
+    version := "0.1.0",
     scalacOptions ++= Seq("-deprecation"),
     licenses += ("Apache-2.0", url("https://opensource.org/licenses/Apache-2.0")),
     developers := List(
