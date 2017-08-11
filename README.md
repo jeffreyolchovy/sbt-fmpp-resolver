@@ -8,7 +8,7 @@ sbt-fmpp-template is compatible with sbt 0.13.13+ and sbt 1.0.
 
 To allow a specific project to use the `FmppTemplateResolver`, add the following to `project/plugins.sbt`:
 ```
-addSbtPlugin("com.github.jeffreyolchovy" % "sbt-fmpp-template" % "0.1.0")
+addSbtPlugin("com.github.jeffreyolchovy" % "sbt-fmpp-template" % "0.1.1")
 ```
 
 To globally allow sbt to evaluate templates using this resolver, add that same line to `~/.sbt/0.13/plugins/build.sbt`.
