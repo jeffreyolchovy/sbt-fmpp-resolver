@@ -31,14 +31,6 @@ object Publishing {
     pomIncludeRepository := { _ => false },
     homepage := Some(new URL("https://github.com/jeffreyolchovy/sbt-fmpp-resolver")),
     pomExtra := {
-      <developers>
-        <developer>
-          <id>jeffreyolchovy</id>
-          <name>Jeffrey Olchovy</name>
-          <email>olchovy@gmail.com</email>
-          <url>https://github.com/jeffreyolchovy</url>
-        </developer>
-      </developers>
       <scm>
         <url>https://github.com/jeffreyolchovy/sbt-fmpp-resolver</url>
         <connection>scm:git:git://github.com/jeffreyolchovy/sbt-fmpp-resolver.git</connection>

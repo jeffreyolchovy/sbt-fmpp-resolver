@@ -7,7 +7,7 @@ inThisBuild(
     scalacOptions ++= Seq("-deprecation"),
     licenses += ("Apache-2.0", url("https://opensource.org/licenses/Apache-2.0")),
     developers := List(
-      Developer("jeffreyolchovy", "Jeffrey Olchovy", "@jaeo", url("https://github.com/jeffreyolchovy"))
+      Developer("jeffreyolchovy", "Jeffrey Olchovy", "olchovy@gmail.com", url("https://github.com/jeffreyolchovy"))
     )
   )
 )
