@@ -32,6 +32,27 @@ Execution of the following command will:
 sbt new -S templates -O src -D "name:MyProject, organization:com.example" --freemarker-links includes:includes
 ```
 
+If that invocation seems too intimidating, sweep your specifications into a `config.fmpp` file and invoke:
+```
+sbt new -C config.fmpp
+```
+
+For the above example, the contents of `config.fmpp` should include:
+```
+sourceRoot: templates
+outputRoot: src
+data: {
+  name: MyProject,
+  organization: com.example
+}
+freemarkerLinks: {
+  includes: includes
+}
+modes: [
+  ignore(config.fmpp)
+]
+```
+
 The file system structure of the `templates` directory will be preserved, however, file and directory names can be altered using FreeMarker macros. This allows for the interpolation and expansion of template file paths, if desired.
 
 By default, empty directories will not be copied to the target destination. This behavior is configurable.
@@ -58,6 +79,7 @@ These examples include projects that:
 - Evaluate templates from a [remote git repository, referencing a given tag](plugin/src/sbt-test/sbt-fmpp-template/remote/test)
 - Evaluate templates that need to create [dynamic directory paths and file names](plugin/src/sbt-test/sbt-fmpp-template/dynamic-files-and-dirs/templates/main/scala/${organization}/Bar.scala)
 - Evaluate templates that utilize [custom user-defined macros](plugin/src/sbt-test/sbt-fmpp-template/macros/includes/custom_macros.ftl)
+- Evaluate templates using a [configuration file](plugin/src/sbt-test/sbt-fmpp-template/config-file)
 
 ## Motivation
 sbt supports the idea of pluggable template resolvers, however, only one implementation ([Giter8](http://www.foundweekends.org/giter8/)) is provided out of the box. While I have made extensive use of Giter8 for project templates and project archetypes in the past, Giter8 is somewhat lacking in terms of raw features and extensibility. This is not necessarily a bad thing. The simplicity and limited range of Giter8 has actually been quite welcoming for the majority of my use cases, but when more power is required, there's not a whole lot you can do...

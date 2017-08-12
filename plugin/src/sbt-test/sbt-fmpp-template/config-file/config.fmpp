@@ -1,0 +1,12 @@
+sourceRoot: templates
+outputRoot: src
+data: {
+  email: user@example.com,
+  date: 2017
+}
+freemarkerLinks: {
+  includes: includes
+}
+modes: [
+  ignore(config.fmpp)
+]
