@@ -53,7 +53,7 @@ modes: [
 ]
 ```
 
-The file system structure of the `templates` directory will be preserved, however, file and directory names can be altered using FreeMarker macros. This allows for the interpolation and expansion of template file paths, if desired.
+File and directory names can be altered using FreeMarker macros. This allows for the interpolation and expansion of template file paths, if desired.
 
 By default, empty directories will not be copied to the target destination. This behavior is configurable.
 
@@ -84,19 +84,11 @@ These examples include projects that:
 ## Motivation
 sbt supports the idea of pluggable template resolvers, however, only one implementation ([Giter8](http://www.foundweekends.org/giter8/)) is provided out of the box. While I have made extensive use of Giter8 for project templates and project archetypes in the past, Giter8 is somewhat lacking in terms of raw features and extensibility. This is not necessarily a bad thing. The simplicity and limited range of Giter8 has actually been quite welcoming for the majority of my use cases, but when more power is required, there's not a whole lot you can do...
 
-I considered forking and extending Giter8 with additional functionality, but since there already exist myriad templating solutions, it would make more sense, in my opinion, to leverage a more robust templating engine and implement any of Giter8's integral features in the new resolver or in the chosen templating solution itself.
+I considered forking and extending Giter8 with additional functionality, but since there already exist myriad templating solutions, it would make more sense, in my opinion, to leverage a more robust templating engine and implement any of Giter8's integral features in the new resolver or with the chosen templating solution itself.
 
-After surveying the landscape of existing templating engines, I landed on Apache FreeMarker. FreeMarker has much more power than I anticipated -- or even desired -- and its array of features can, at times, be rather dizzying. The thing that's worth noting, however, is how simple integration has been. The FMPP front-end has a well documented feature set and Java API.
+After surveying the landscape of existing templating engines, I landed on Apache FreeMarker. FreeMarker has much more power than I anticipated -- or even desired -- and its array of features can, at times, be rather dizzying. The thing that's worth noting is how simple integration has been. The FMPP front-end has a well documented feature set and Java API.
 
-sbt's mechanism for adding template resolvers has also proven to be rather simple. The [docs](http://www.scala-sbt.org/0.13/docs/sbt-new-and-Templates.html#Template+Resolver) explain the process rather well.
-
-I've spent most of my time wrestling with configuring the plugin to work against both sbt 0.13 and 1.0. There is a bit of noise and hackery in the build.sbt that I can't seem to simplify, and I hope some attention is placed on cross-sbt-version-plugin-development before we get an official 1.0 release.
-
-Notably, some issues that I ran into when developing the plugin against sbt 0.13 and 1.0 were:
-- https://github.com/sbt/sbt/issues/3392
-- https://github.com/sbt/sbt/issues/3393
-
-See the build.sbt and the linked issues for more information on the workarounds.
+sbt's mechanism for adding template resolvers has also proven to be rather simple. The [docs](http://www.scala-sbt.org/0.13/docs/sbt-new-and-Templates.html#Template+Resolver) explain the process clearly.
 
 ## Project Structure
 - [plugin](#plugin)
@@ -105,6 +97,12 @@ See the build.sbt and the linked issues for more information on the workarounds.
 
 ### plugin
 An sbt plugin that adds the [`FmppTemplateResolver`](resolver/src/main/scala/sbtfmppresolver/FmppTemplateResolver.scala) to sbt's `templateResolverInfos` setting.
+
+This plugin cross builds for sbt 0.13 and sbt 1.0. There is still a bit of noise and hackery in the build.sbt that I can't seem to simplify, notably:
+- https://github.com/sbt/sbt/issues/3392
+- https://github.com/sbt/sbt/issues/3393
+
+See the build.sbt and the linked issues for more information on the workarounds.
 
 ### plugin-buildinfo
 **NOT YET IMPLEMENTED**
@@ -120,12 +118,11 @@ Currently, it programmatically invokes the FMPP `CommandLine` front-end via FMPP
 
 It uses logic ported from Giter8 for resolving remote resources.
 
-## Limitations (and workarounds)
-- ~~Does not support dynamic file and directory names~~
-  - Dynamic file and directory names can be obtained by utilizing `pp` directives *inside* templates
-  - The `config.fmpp` files in the [example](examples) projects present a method for automatically interpolating variables when present in file names or directory paths
-- Does not include built-ins for Java-esque style string conversions (e.g. to/from UpperCamelCase or lowerCamelCase)
-  - These operations can be defined in custom macros and included as a library (**namespace**, in FreeMarker lingo)
+## Notes
+- Dynamic file and directory names can be obtained by utilizing `pp` directives *inside* templates
+- The `config.fmpp` files in the [example](examples) projects present a method for automatically interpolating variables when present in file names or directory paths
+- FreeMarker does not include built-in string operations for Java-esque string transformations (e.g. to/from UpperCamelCase, lowerCamelCase, snake_case, etc.)
+  - These operations can be defined in custom macros and included as a library (or **namespace**, in FreeMarker lingo)
 
 ## Credits
 - The real heavy lifting is done by the underlying templating engine and templating "front-end" (FreeMarker and FMPP)
