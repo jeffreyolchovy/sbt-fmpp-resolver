@@ -96,7 +96,7 @@ The template resolver implementation.
 
 Currently, it programmatically invokes the FMPP `CommandLine` front-end via FMPP's Java API.
 
-This will be replaced by a custom front-end which can resolve remote resources.
+It uses logic ported from Giter8 for resolving remote resources.
 
 ## Limitations (and workarounds)
 - ~~Does not support dynamic file and directory names~~
