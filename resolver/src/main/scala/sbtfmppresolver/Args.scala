@@ -20,7 +20,7 @@ case class Args(underlying: Seq[(String, String)]) {
   def containsAny(keys: String*): Boolean = {
     val targetKeys = keys.toSet
     val currentKeys = underlying.map(_._1).toSet
-    targetKeys.subsetOf(currentKeys)
+    (targetKeys & currentKeys).nonEmpty
   }
 
   def replace(key: String, value: String): Args = {
